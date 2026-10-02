@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../lib/content';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
@@ -24,6 +25,8 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: '10px 16px',
       padding: '18px 32px',
       background: '#0B0B0B66',
       backdropFilter: 'blur(14px)',
@@ -42,6 +45,8 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       data-mnavlinks="true"
       style={{
         display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
         gap: 28,
         alignItems: 'center',
         fontFamily: "'JetBrains Mono', monospace",
@@ -118,6 +123,22 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       >
         JOIN US
       </a>
+      <Link
+        to="/gauntlet"
+        data-mhide="true"
+        style={{
+          color: 'var(--lime)',
+          border: '1px dashed #FFFFFF33',
+          padding: '8px 16px',
+          borderRadius: 100,
+          textDecoration: 'none',
+          fontWeight: 500,
+          display: 'inline-block',
+          fontSize: 11,
+        }}
+      >
+        ⚡ IGNUS
+      </Link>
     </div>
   </nav>
 ));

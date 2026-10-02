@@ -14,6 +14,7 @@ export const NAV_LINKS = [
   { href: '#story', label: 'STORY' },
   { href: '#focus', label: 'FOCUS' },
   { href: '#wall', label: 'WALL' },
+  { href: '#events', label: 'EVENTS' },
   { href: '#people', label: 'PEOPLE' },
 ];
 
@@ -103,6 +104,43 @@ export const MEMORY_CARDS: MemoryCard[] = memoryEntries.map(({ label, src }, i) 
   tapeRot: MEMORY_ROTATIONS[i % MEMORY_ROTATIONS.length],
 }));
 
+// ---- HERO BAND · POSTER DROP Nº 01 ----
+// Photos live in src/assets/posters (Wikimedia Commons cosplay shots, CC BY /
+// CC BY-SA). `focus` is the object-position used when the portrait card crops
+// the landscape/oversized originals — nudge it if a face sits too low.
+const posterImages = import.meta.glob('../assets/posters/*.{jpeg,jpg,png,JPEG,JPG,PNG}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+export interface Poster {
+  id: string;
+  name: string;
+  tag: string;
+  src: string;
+  focus: string;
+  tilt: number;
+}
+
+const POSTER_ORDER = [
+  { key: 'doom', name: 'DR. DOOM', tag: '/ VILLAIN', focus: 'center 28%', tilt: -2.5 },
+  { key: 'thor', name: 'THOR', tag: '/ ASGARD', focus: 'center 14%', tilt: 2 },
+  { key: 'ironman', name: 'IRON MAN', tag: '/ SUIT', focus: 'center 26%', tilt: -1.5 },
+  { key: 'cap', name: 'CAP', tag: '/ SHIELD', focus: 'center 24%', tilt: 1.5 },
+];
+
+const posterSrc = (file: string) =>
+  posterImages[Object.keys(posterImages).find((p) => p.endsWith(`/${file}.jpg`)) ?? ''] ?? '';
+
+export const POSTERS: Poster[] = POSTER_ORDER.map((p) => ({
+  id: `poster-${p.key}`,
+  name: p.name,
+  tag: p.tag,
+  src: posterSrc(p.key),
+  focus: p.focus,
+  tilt: p.tilt,
+}));
+
 export const FOCUS_CARDS = {
   handsOn: {
     tag: '/ 01',
@@ -165,3 +203,20 @@ export const JOIN_FORM_URL = 'https://management.nirmauni.ac.in/student/clique/'
 export const INSTAGRAM_URL = 'https://instagram.com/clique_imnu';
 export const LINKEDIN_URL = 'https://www.linkedin.com/company/clique-the-it-analytics-club-imnu/';
 export const NIRMA_URL = 'https://management.nirmauni.ac.in/student/clique/';
+
+// ---- THE GAUNTLET (Issue Nº 01) ----
+// Single source of truth for the /gauntlet hero meta pills. Update these
+// when the date / venue / format is locked — GauntletPage reads them.
+export const GAUNTLET_META = {
+  issue: 'ISSUE Nº 01 — IGNUS',
+  date: 'SAT · OCT 3 · TIME TBA',
+  venue: 'VENUE TBA',
+  format: 'JUST FOR FUN',
+};
+
+export const GAUNTLET_TRIVIA_CATEGORIES = [
+  'Tech & AI',
+  'Comics & Cinema',
+  'Sports & Speed',
+  'Random Chaos',
+];

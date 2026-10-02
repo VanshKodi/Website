@@ -4,6 +4,10 @@ Marketing site for CLIQUE, the IT & Analytics Club at the Institute of
 Management, Nirma University. Built with React 19, Vite, TypeScript and
 React Router.
 
+The site presents the club's story, focus areas, member wall and join form,
+plus a game-night page (`/gauntlet`) with a poster-drop banner, event rounds
+and a registration ticket.
+
 ## Local development
 
 ```bash
@@ -15,20 +19,26 @@ npm run preview  # preview the production build locally
 
 ## Deployment
 
-The site auto-deploys to **GitHub Pages** on every push to `main` via the
-workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml).
+### Railway (primary)
+
+The site is deployed on Railway from the `main` branch. Railway auto-detects
+the Node.js app, runs `npm install` + `npm run build`, then starts the
+production server with `npm start` (`vite preview --port $PORT`).
+
+The Vite `base` is `'/'` (absolute) in [vite.config.ts](vite.config.ts),
+since Railway and the custom domain serve the app from the domain root.
+(A relative `'./'` base breaks React Router: `BASE_URL` becomes `'./'`,
+which normalizes to basename `'/.'` and matches nothing, leaving a blank
+page.) Client-side routes (`/gauntlet`, `/join`, `/people/:slug`)
+survive a hard refresh via the SPA fallback in `vite preview`.
+
+### GitHub Pages (legacy)
 
 Live URL: <https://clique-imnu.github.io/Website/>
 
-One-time setup in the repo: **Settings → Pages → Build and deployment →
-Source: GitHub Actions**.
-
-Because it's served from the `/Website/` sub-path, the Vite `base` is set to
-`/Website/` in [vite.config.ts](vite.config.ts) and the router reads it via
-`import.meta.env.BASE_URL`. Client-side routes (`/join`, `/people/:slug`)
-survive a hard refresh thanks to the SPA fallback in
-[public/404.html](public/404.html). For a custom domain served from the root,
-set `base` back to `'/'`.
+Because it can be served from the `/Website/` sub-path, the router reads the
+base via `import.meta.env.BASE_URL` (see `getBasename()` in
+[src/main.tsx](src/main.tsx)), which handles `'/'` and `'/Website/'`.
 
 ## Registration form → Google Sheet
 
