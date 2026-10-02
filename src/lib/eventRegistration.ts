@@ -24,14 +24,18 @@
 // }
 // ```
 
-// Secret hygiene: this URL ships inside the client bundle (any visitor can
-// read it in devtools), so keep it OUT of git. Provide it via env instead:
-//   local dev → create `.env.local` (already gitignored via `*.local`):
-//     VITE_GAUNTLET_SHEET_WEBHOOK_URL=https://script.google.com/macros/s/…/exec
-//   Railway   → dashboard → Variables → add the same key (then redeploy).
+// This URL ships inside the client bundle (any visitor can read it in
+// devtools), so it is not a secret. It is hardcoded as the default so that
+// every build works with zero env vars - GitHub Pages builds have none, and
+// an empty URL silently drops RSVPs into localStorage demo mode instead of
+// the Sheet (same approach as registration.ts).
+// Optional override, in case the sheet is ever replaced:
+//   local dev → `.env.local` (gitignored via `*.local`)
+//   Railway   → dashboard → Variables
 const ENV_URL = ((import.meta.env.VITE_GAUNTLET_SHEET_WEBHOOK_URL as string | undefined) ?? '').trim();
 
-export const GAUNTLET_SHEET_WEBHOOK_URL = ENV_URL; // <-- do NOT hardcode the /exec URL here
+export const GAUNTLET_SHEET_WEBHOOK_URL =
+  ENV_URL || 'https://script.google.com/macros/s/AKfycbxXAjZX9BdAQSYeVyp1fhBwne_1EHorfDvjlqAKfNn27gUskgHlfgwyVpcJKA2rYdWS/exec';
 
 export interface GauntletRegistration {
   name: string;
