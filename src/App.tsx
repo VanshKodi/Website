@@ -5,6 +5,7 @@ import { JoinPage } from './pages/JoinPage';
 import { GauntletPage } from './pages/GauntletPage';
 import { TeamRouletteApp } from './roulette/TeamRouletteApp';
 import { NotFound } from './pages/NotFound';
+import { WisprFlowAltsPage } from './pages/WisprFlowAltsPage';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/people/:slug" element={<MemberPage />} />
       <Route path="/join" element={<JoinPage />} />
       <Route path="/gauntlet" element={<GauntletPage />} />
+      <Route path="/wisprflowAlts" element={<WisprFlowAltsPage />} />
       <Route path="/hidden/*" element={<TeamRouletteApp />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
